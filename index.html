@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400;600&family=Poppins:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>CALC APP</title>
+
+    <script defer src="script.js"></script>
+  </head>
+  <body>
+    <header class="calc-header">
+      <h1 class="calc-heading">
+        S P L I <br />
+        T T E R
+      </h1>
+    </header>
+    <main class="calc-app">
+      <form action="#" method="/" class="calc-app-column" id="calc-form">
+        <div class="input-wrapper" id="bill-value-wrapper">
+          <label class="input-label" for="bill-value" required>Bill</label>
+          <img src="icon/user-icon.png" alt="" class="input-icon" />
+          <input
+            class="input input-with-icon"
+            type="number"
+            id="bill-value"
+            min="1"
+          />
+        </div>
+        <fieldset class="tips">
+          <legend class="tips-legend">Select Tip %</legend>
+          <div class="tips-options" tabindex="0">
+            <div class="tip">
+              <input
+                class="radio-input"
+                type="radio"
+                name="tip option"
+                id="5-percent"
+                value="0.05"
+              />
+              <label for="5-percent" class="radio-label">5%</label>
+            </div>
+            <div class="tip">
+              <input
+                class="radio-input"
+                type="radio"
+                name="tip option"
+                id="10-percent"
+                value="0.10"
+              />
+              <label for="10-percent" class="radio-label">10%</label>
+            </div>
+            <div class="tip">
+              <input
+                class="radio-input"
+                type="radio"
+                name="tip option"
+                id="15-percent"
+                value="0.15"
+              />
+              <label for="15-percent" class="radio-label">15%</label>
+            </div>
+            <div class="tip">
+              <input
+                class="radio-input"
+                type="radio"
+                name="tip option"
+                id="25-percent"
+                value="0.25"
+              />
+              <label for="25-percent" class="radio-label">25%</label>
+            </div>
+            <div class="tip">
+              <input
+                class="radio-input"
+                type="radio"
+                name="tip option"
+                id="50-percent"
+                value="0.5"
+              />
+              <label for="50-percent" class="radio-label">50%</label>
+            </div>
+            <div class="tip custom-tip">
+              <label class="input-label custom-input-label">
+                <input
+                  class="input custom-input"
+                  type="number"
+                  placeholder="Custom"
+                />
+              </label>
+            </div>
+          </div>
+        </fieldset>
+        <div class="input-wrapper" id="people-amount-wrapper">
+          <label class="input-label" for="input-people-amount"
+            >Number of People</label
+          >
+          <img src="icon/user-icon.png" alt="" class="input-icon" />
+          <input
+            class="input input-with-icon"
+            type="number"
+            id="input-people-amount"
+            min="1"
+          />
+        </div>
+      </form>
+      <div class="calc-app-column">
+        <div class="output-wrapper">
+          <div class="calculation-details">
+            <div class="output-value-container">
+              <p class="output-info-description">
+                Tip Amount <br />
+                <span class="output-info-description-span">/ person</span>
+              </p>
+              <p class="output-value">$0.00</p>
+            </div>
+            <div class="output-value-container">
+              <p class="output-info-description">
+                Total <br />
+                <span class="output-info-description-span">/ person</span>
+              </p>
+              <p class="output-value-total">$0.00</p>
+            </div>
+          </div>
+          <div class="btns">
+            <button type="submit" class="btn btn-primary" form="calc-form">
+              CALCULATE
+            </button>
+            <button type="reset" class="btn btn-secondary" form="calc-form">
+              RESET
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+  <footer></footer>
+</html>

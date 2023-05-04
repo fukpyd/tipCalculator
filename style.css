@@ -1,0 +1,279 @@
+*,
+::before,
+::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #c5e4e8;
+  font-size: 16px;
+  font-family: "DynaPuff", cursive;
+  min-height: 100vh;
+  gap: 10vh;
+}
+
+.calc-heading {
+  font-size: clamp(1rem, 0.7727rem + 1.1364vw, 1.5rem);
+  color: #517477;
+}
+
+.calc-app {
+  min-width: 200px;
+  width: 60%;
+  max-width: 1024px;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #ffffff;
+  border-radius: 1%;
+}
+
+.calc-app-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  flex: 1;
+  min-width: 200px;
+  background-color: #ffffff;
+  padding: 2%;
+  border-radius: 1%;
+  font-size: clamp(0.8rem, 0.2333rem + 0.7033vw, 0.9rem);
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.input-error-message {
+  position: absolute;
+  right: 0%;
+  top: 0%;
+  color: red;
+  font-size: clamp(0.6rem, 0.2rem + 0.7vw, 0.6rem);
+}
+.tips-error-message {
+  top: -20%;
+}
+
+.input-label {
+  color: #517477;
+}
+
+.input {
+  background-color: #f3f8fa;
+  border: none;
+  width: 100%;
+  padding: 0.5em 1.5em;
+  margin-bottom: 0.1em;
+  border-radius: 1%;
+  font-size: inherit;
+  font-family: inherit;
+}
+
+.input:focus {
+  outline-color: #9ad9d3;
+}
+
+.input-icon {
+  width: 1em;
+  position: absolute;
+  bottom: 20%;
+  left: 2%;
+  opacity: 0.5;
+}
+
+.tips {
+  position: relative;
+  border: none;
+}
+
+.tips-legend {
+  margin-bottom: 0.2em;
+  font-size: inherit;
+  font-weight: 500;
+  color: #517477;
+}
+
+.tips-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 0.5em;
+  padding: 0.1em 0;
+}
+
+.tip {
+  position: relative;
+  border-radius: 6%;
+  background-color: #00474b;
+  cursor: pointer;
+}
+
+.radio-input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 1px;
+  width: 1px;
+  opacity: 0;
+}
+
+.radio-input:checked + .radio-label {
+  background-color: #9fe8df;
+}
+/* 
+.radio-input:checked:focus + .radio-label {
+  outline: 1px solid red;
+} */
+
+.custom-tip {
+  background-color: #f3f8fb;
+  position: static;
+}
+
+.radio-label {
+  color: #f3f8fa;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  padding: 0.5em 1em;
+  text-align: center;
+}
+
+.custom-input {
+  padding: 0.5em;
+}
+
+.output-wrapper {
+  height: 100%;
+  background-color: #00474b;
+  border-radius: 1%;
+  padding: 1.2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1em;
+}
+
+.calculation-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8em;
+}
+
+.output-value-container {
+  display: flex;
+  justify-content: space-between;
+}
+.output-info-description {
+  font-size: 1.2em;
+  color: white;
+}
+
+.output-info-description-span {
+  font-size: 0.7em;
+  color: #508186;
+}
+
+.output-value,
+.output-value-total {
+  color: #27c1ac;
+  font-size: 1.3em;
+}
+
+.btns {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5em;
+}
+
+.btn {
+  font-family: inherit;
+  font-size: 1em;
+  padding: 0.5em 1em;
+  flex: 1;
+  border: none;
+  border-radius: 1%;
+  cursor: pointer;
+}
+
+.btn-primary {
+  color: #ffffff;
+  background-color: #0d686d;
+}
+
+.btn-secondary {
+  color: #0d686d;
+}
+
+.input-wrapper-error {
+  display: flex;
+}
+
+/* @media (max-width: 600px) {
+  .calc-container {
+    width: 100%;
+    display: block;
+  }
+  .calc-header {
+    width: 100%;
+    margin: 10vw;
+  }
+  h1 {
+    font-size: 2rem;
+  }
+  label {
+    font-size: 4vw;
+  }
+  .input-bill-value::placeholder {
+    font-size: 30px;
+  }
+  .tip-select-title {
+    font-size: 4vw;
+  }
+  .input-bill-value {
+    height: 4rem;
+  }
+  .input {
+    height: 4rem;
+  }
+  .tile {
+    width: 49%;
+    height: 4rem;
+  }
+  .checkbox-label {
+    font-size: 4vw;
+    top: 30%;
+    left: 42%;
+  }
+  .checkbox-label-custom {
+    font-size: 4vw;
+    left: 30%;
+  }
+  .user-icon {
+    width: 30px;
+  }
+  .output-info--description {
+    font-size: 4vw;
+  }
+  .output-value {
+    font-size: 5vw;
+  }
+  span {
+    font-size: 1rem;
+  }
+  .calc-output-wrapper {
+    height: 70vw;
+  }
+  .btn {
+    height: 15vh;
+  }
+  .reset-btn {
+    font-size: 25px;
+    height: 3rem;
+  }
+} ; */
