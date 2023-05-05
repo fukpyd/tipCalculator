@@ -16,7 +16,17 @@ const inputsWithIcon = document.querySelectorAll(
   ".input-wrapper > .input-with-icon"
 );
 const outputTipValue = document.querySelector(".output-value");
+
+// outputTipValue.textContent = formattedOutputTip;
+
 const outputValueTotal = document.querySelector(".output-value-total");
+
+// const formattedValueTotal = new Intl.NumberFormat("en-US", {
+//   style: "currency",
+//   currency: "USD",
+// }).format(DEFAULT_VALUE);
+// outputValueTotal.textContent = formattedValueTotal;
+
 const getSelectedTip = () => {
   return document.querySelector(".tip > .radio-input:checked");
 };
@@ -50,16 +60,23 @@ inputsWithIcon.forEach((inputWithIcon) =>
 
 // customTip.addEventListener("blur", function () {}
 
-tipsOptions.addEventListener("focusout", function (e) {
-  const isTipsContent = e.target.closest(".tip");
-  console.log(e.target.closest(".tip"));
-  const selectedTip = getSelectedTip();
-  if (!customTipInput.valueAsNumber && !selectedTip && !isTipsContent) {
-    const errorMessage = createInputError("tips-error-message");
-    tipsFieldset.appendChild(errorMessage);
-    tipsOptions.style.border = "1px solid red";
+const validateTips = (e) => {
+  const isTipsOptionsContent = e.target.closest(".tips-options");
+  if (!isTipsOptionsContent) {
+    const selectedTip = getSelectedTip();
+    if (!customTipInput.valueAsNumber && !selectedTip) {
+      const errorMessage = createInputError("tips-error-message");
+      tipsFieldset.appendChild(errorMessage);
+      tipsOptions.style.border = "1px solid red";
+    }
   }
-  // console.log(document.querySelector(".tip > .radio-input:checked"));
+};
+
+tipsOptions.addEventListener("click", function (e) {
+  const isTipsContent = e.target.closest(".tip");
+  if (isTipsContent) {
+    document.addEventListener("click", validateTips);
+  }
 });
 
 customTipInput.addEventListener("focus", function () {
@@ -78,21 +95,21 @@ tipsOptions.addEventListener("click", function () {
 calcBtn.addEventListener("click", function (e) {
   e.preventDefault();
   const selectedTip = getSelectedTip();
+  let tipAmount, totalValue;
   if (selectedTip) {
-    outputTipValue.textContent =
+    tipAmount =
       (billValueInput.valueAsNumber * selectedTip.value) /
       peopleAmountInput.valueAsNumber;
   } else {
-    outputTipValue.textContent =
+    tipAmount =
       ((customTipInput.valueAsNumber / 100) * billValueInput.valueAsNumber) /
       peopleAmountInput.valueAsNumber;
   }
-  outputValueTotal.textContent =
-    billValueInput.valueAsNumber / peopleAmountInput.valueAsNumber +
-    Number(outputTipValue.textContent);
+  totalValue =
+    billValueInput.valueAsNumber / peopleAmountInput.valueAsNumber + tipAmount;
+
+  outputTipValue.textContent = `$ ${tipAmount}`;
+  outputValueTotal.textContent = `$ ${totalValue}`;
 });
 
-resetBtn.addEventListener("click", function (e) {
-  outputValueTotal.textContent = "$0.00";
-  outputTipValue.textContent = "$0.00";
-});
+resetBtn.addEventListener("click", function () {});
