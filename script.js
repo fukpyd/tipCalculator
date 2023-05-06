@@ -16,6 +16,7 @@ const inputsWithIcon = document.querySelectorAll(
   ".input-wrapper > .input-with-icon"
 );
 const outputTipValue = document.querySelector(".output-value");
+let shouldAddListener = true;
 
 // outputTipValue.textContent = formattedOutputTip;
 
@@ -64,6 +65,8 @@ const validateTips = (e) => {
   const isTipsOptionsContent = e.target.closest(".tips-options");
   if (!isTipsOptionsContent) {
     const selectedTip = getSelectedTip();
+    console.log(shouldAddListener, "added, then false");
+    shouldAddListener = false; // false
     if (!customTipInput.valueAsNumber && !selectedTip) {
       const errorMessage = createInputError("tips-error-message");
       tipsFieldset.appendChild(errorMessage);
@@ -74,10 +77,16 @@ const validateTips = (e) => {
 
 tipsOptions.addEventListener("click", function (e) {
   const isTipsContent = e.target.closest(".tip");
-  if (isTipsContent) {
+  console.log(isTipsContent, shouldAddListener);
+  if (isTipsContent && shouldAddListener) {
     document.addEventListener("click", validateTips);
+  } else {
+    document.removeEventListener("click", validateTips);
+    shouldAddListener = true;
   }
 });
+
+// false -> add, true --- true -> remove, false
 
 customTipInput.addEventListener("focus", function () {
   const selectedTip = getSelectedTip();
