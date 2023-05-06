@@ -72,6 +72,8 @@ const validateTips = (e) => {
       tipsFieldset.appendChild(errorMessage);
       tipsOptions.style.border = "1px solid red";
     }
+    document.removeEventListener("click", validateTips);
+    shouldAddListener = true;
   }
 };
 
@@ -80,9 +82,6 @@ tipsOptions.addEventListener("click", function (e) {
   console.log(isTipsContent, shouldAddListener);
   if (isTipsContent && shouldAddListener) {
     document.addEventListener("click", validateTips);
-  } else {
-    document.removeEventListener("click", validateTips);
-    shouldAddListener = true;
   }
 });
 
