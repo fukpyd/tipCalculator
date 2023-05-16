@@ -18,21 +18,13 @@ const inputsWithIcon = document.querySelectorAll(
 const outputTipValue = document.querySelector(".output-value");
 let shouldAddListener = true;
 
-// outputTipValue.textContent = formattedOutputTip;
-
 const outputValueTotal = document.querySelector(".output-value-total");
 
-// const formattedValueTotal = new Intl.NumberFormat("en-US", {
-//   style: "currency",
-//   currency: "USD",
-// }).format(DEFAULT_VALUE);
-// outputValueTotal.textContent = formattedValueTotal;
+const DEFAULT_AMOUNT = "$ 0.00";
 
 const getSelectedTip = () => {
   return document.querySelector(".tip > .radio-input:checked");
 };
-
-let isValidationMode = false;
 
 const createInputError = function (customClass) {
   const inputError = document.createElement("span");
@@ -41,51 +33,70 @@ const createInputError = function (customClass) {
   return inputError;
 };
 
+const fieldsCheck = function () {
+  const selectedTip = getSelectedTip();
+  inputsWithIcon.forEach((inputWithIcon, index) => {
+    if (!inputWithIcon.valueAsNumber) {
+      const errorMessage = createInputError();
+      inputsWithIcon[index].nextElementSibling?.remove();
+      inputWrapper[index].appendChild(errorMessage);
+      inputsWithIcon[index].style.border = "1px solid red";
+    }
+  });
+  if (!customTipInput.valueAsNumber && !selectedTip) {
+    const errorMessage = createInputError("tips-error-message");
+    tipsOptions.nextElementSibling?.remove();
+    tipsFieldset.appendChild(errorMessage);
+    tipsOptions.style.border = "1px solid red";
+  }
+};
+
 inputsWithIcon.forEach((inputWithIcon, index) => {
   inputWithIcon.addEventListener("blur", function () {
     if (inputWithIcon.value < 1) {
+      // powinien być warunek jeszcze że nie kliknęłm w clcBtn i resetBtn zeby nie dublować błędów
       inputWithIcon.value = "";
       const errorMessage = createInputError();
       inputWrapper[index].appendChild(errorMessage);
       inputsWithIcon[index].style.border = "1px solid red";
     }
   });
-});
-
-inputsWithIcon.forEach((inputWithIcon) =>
   inputWithIcon.addEventListener("focus", function () {
     inputWithIcon.style.border = "none";
     inputWithIcon.nextElementSibling?.remove();
-  })
-);
+  });
+});
 
-// customTip.addEventListener("blur", function () {}
-
-const validateTips = (e) => {
+function validateTips(e) {
   const isTipsOptionsContent = e.target.closest(".tips-options");
   if (!isTipsOptionsContent) {
     const selectedTip = getSelectedTip();
-    console.log(shouldAddListener, "added, then false");
-    shouldAddListener = false; // false
-    if (!customTipInput.valueAsNumber && !selectedTip) {
+    document.removeEventListener("click", validateTips);
+    shouldAddListener = true;
+    if (
+      !customTipInput.valueAsNumber &&
+      !selectedTip &&
+      !e.nextElementSibling
+    ) {
       const errorMessage = createInputError("tips-error-message");
       tipsFieldset.appendChild(errorMessage);
       tipsOptions.style.border = "1px solid red";
     }
-    document.removeEventListener("click", validateTips);
-    shouldAddListener = true;
   }
-};
+}
 
 tipsOptions.addEventListener("click", function (e) {
   const isTipsContent = e.target.closest(".tip");
-  console.log(isTipsContent, shouldAddListener);
+  const selectedTip = getSelectedTip();
+
   if (isTipsContent && shouldAddListener) {
     document.addEventListener("click", validateTips);
+    shouldAddListener = false;
   }
+  tipsOptions.style.border = "none";
+  tipsOptions.nextElementSibling?.remove();
+  if (selectedTip) customTipInput.value = "";
 });
-
-// false -> add, true --- true -> remove, false
 
 customTipInput.addEventListener("focus", function () {
   const selectedTip = getSelectedTip();
@@ -94,30 +105,43 @@ customTipInput.addEventListener("focus", function () {
   }
 });
 
-tipsOptions.addEventListener("click", function () {
-  tipsOptions.style.border = "none";
-  tipsOptions.nextElementSibling?.remove();
-  customTipInput.value = "";
-});
-
 calcBtn.addEventListener("click", function (e) {
   e.preventDefault();
+  fieldsCheck();
   const selectedTip = getSelectedTip();
   let tipAmount, totalValue;
   if (selectedTip) {
-    tipAmount =
+    tipAmount = (
       (billValueInput.valueAsNumber * selectedTip.value) /
-      peopleAmountInput.valueAsNumber;
+      peopleAmountInput.valueAsNumber
+    ).toFixed(2);
   } else {
-    tipAmount =
+    tipAmount = (
       ((customTipInput.valueAsNumber / 100) * billValueInput.valueAsNumber) /
-      peopleAmountInput.valueAsNumber;
+      peopleAmountInput.valueAsNumber
+    ).toFixed(2);
   }
-  totalValue =
-    billValueInput.valueAsNumber / peopleAmountInput.valueAsNumber + tipAmount;
+  totalValue = (
+    billValueInput.valueAsNumber / peopleAmountInput.valueAsNumber +
+    Number(tipAmount)
+  ).toFixed(2);
 
-  outputTipValue.textContent = `$ ${tipAmount}`;
-  outputValueTotal.textContent = `$ ${totalValue}`;
+  outputTipValue.textContent = Number(tipAmount)
+    ? `$ ${tipAmount}`
+    : DEFAULT_AMOUNT;
+  outputValueTotal.textContent = Number(totalValue)
+    ? `$ ${totalValue}`
+    : DEFAULT_AMOUNT;
 });
 
-resetBtn.addEventListener("click", function () {});
+resetBtn.addEventListener("click", function () {
+  outputTipValue.textContent = "$ 0.00";
+  outputValueTotal.textContent = "$ 0.00";
+  tipsOptions.style.border = "none";
+  tipsOptions.nextElementSibling?.remove();
+
+  inputsWithIcon.forEach((inputWithIcon) => {
+    inputWithIcon.nextElementSibling?.remove();
+    inputWithIcon.style.border = "none";
+  });
+});
